@@ -1,5 +1,47 @@
 [
     {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "sagemaker",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sagemaker",
+        "description": "sagemaker",
+        "detail": "sagemaker",
+        "documentation": {}
+    },
+    {
+        "label": "S3Input",
+        "importPath": "sagemaker",
+        "description": "sagemaker",
+        "isExtraImport": true,
+        "detail": "sagemaker",
+        "documentation": {}
+    },
+    {
+        "label": "SKLearn",
+        "importPath": "sagemaker.sklearn.estimator",
+        "description": "sagemaker.sklearn.estimator",
+        "isExtraImport": true,
+        "detail": "sagemaker.sklearn.estimator",
+        "documentation": {}
+    },
+    {
+        "label": "train_test_split",
+        "importPath": "sklearn.model_selection",
+        "description": "sklearn.model_selection",
+        "isExtraImport": true,
+        "detail": "sklearn.model_selection",
+        "documentation": {}
+    },
+    {
         "label": "load_boston",
         "importPath": "sklearn.datasets",
         "description": "sklearn.datasets",
@@ -8,12 +50,93 @@
         "documentation": {}
     },
     {
-        "label": "pandas",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "pandas",
-        "description": "pandas",
-        "detail": "pandas",
+        "label": "df",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "df = pd.read_csv(\n    \"abalone.data\", \n    names=[\n        \"Sex\", \"Length\", \"Diameter\", \"Height\", \"Whole weight\", \n        \"Shucked weight\", \"Viscera weight\", \"Shell weight\", \"Rings\"\n    ]\n)\n# Convert categorical feature 'Sex' to numerical using one-hot encoding\ndf = pd.get_dummies(df, columns=[\"Sex\"], prefix=[\"Sex\"])\n# Split data into features (X) and target (y)",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "df",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "df = pd.get_dummies(df, columns=[\"Sex\"], prefix=[\"Sex\"])\n# Split data into features (X) and target (y)\nX = df.drop(\"Rings\", axis=1)\ny = df[\"Rings\"]\n# Split data into training and test sets\nfrom sklearn.model_selection import train_test_split\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n# Convert to CSV and upload to S3\ntrain_data = pd.concat([y_train, X_train], axis=1)\ntest_data = pd.concat([y_test, X_test], axis=1)",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "X",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "X = df.drop(\"Rings\", axis=1)\ny = df[\"Rings\"]\n# Split data into training and test sets\nfrom sklearn.model_selection import train_test_split\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n# Convert to CSV and upload to S3\ntrain_data = pd.concat([y_train, X_train], axis=1)\ntest_data = pd.concat([y_test, X_test], axis=1)\nbucket = sagemaker.Session().default_bucket()\nprefix = \"abalone-example\"",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "y",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "y = df[\"Rings\"]\n# Split data into training and test sets\nfrom sklearn.model_selection import train_test_split\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n# Convert to CSV and upload to S3\ntrain_data = pd.concat([y_train, X_train], axis=1)\ntest_data = pd.concat([y_test, X_test], axis=1)\nbucket = sagemaker.Session().default_bucket()\nprefix = \"abalone-example\"\ntrain_data.to_csv(\"train.csv\", header=False, index=False)",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "train_data",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "train_data = pd.concat([y_train, X_train], axis=1)\ntest_data = pd.concat([y_test, X_test], axis=1)\nbucket = sagemaker.Session().default_bucket()\nprefix = \"abalone-example\"\ntrain_data.to_csv(\"train.csv\", header=False, index=False)\ntest_data.to_csv(\"test.csv\", header=False, index=False)\nboto3.Session().resource('s3').Bucket(bucket).Object(f'{prefix}/train/train.csv').upload_file('train.csv')\nboto3.Session().resource('s3').Bucket(bucket).Object(f'{prefix}/test/test.csv').upload_file('test.csv')\ntrain_input = S3Input(s3_data=f's3://{bucket}/{prefix}/train', content_type='text/csv')\ntest_input = S3Input(s3_data=f's3://{bucket}/{prefix}/test', content_type='text/csv')",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "test_data",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "test_data = pd.concat([y_test, X_test], axis=1)\nbucket = sagemaker.Session().default_bucket()\nprefix = \"abalone-example\"\ntrain_data.to_csv(\"train.csv\", header=False, index=False)\ntest_data.to_csv(\"test.csv\", header=False, index=False)\nboto3.Session().resource('s3').Bucket(bucket).Object(f'{prefix}/train/train.csv').upload_file('train.csv')\nboto3.Session().resource('s3').Bucket(bucket).Object(f'{prefix}/test/test.csv').upload_file('test.csv')\ntrain_input = S3Input(s3_data=f's3://{bucket}/{prefix}/train', content_type='text/csv')\ntest_input = S3Input(s3_data=f's3://{bucket}/{prefix}/test', content_type='text/csv')",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "bucket",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "bucket = sagemaker.Session().default_bucket()\nprefix = \"abalone-example\"\ntrain_data.to_csv(\"train.csv\", header=False, index=False)\ntest_data.to_csv(\"test.csv\", header=False, index=False)\nboto3.Session().resource('s3').Bucket(bucket).Object(f'{prefix}/train/train.csv').upload_file('train.csv')\nboto3.Session().resource('s3').Bucket(bucket).Object(f'{prefix}/test/test.csv').upload_file('test.csv')\ntrain_input = S3Input(s3_data=f's3://{bucket}/{prefix}/train', content_type='text/csv')\ntest_input = S3Input(s3_data=f's3://{bucket}/{prefix}/test', content_type='text/csv')",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "prefix",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "prefix = \"abalone-example\"\ntrain_data.to_csv(\"train.csv\", header=False, index=False)\ntest_data.to_csv(\"test.csv\", header=False, index=False)\nboto3.Session().resource('s3').Bucket(bucket).Object(f'{prefix}/train/train.csv').upload_file('train.csv')\nboto3.Session().resource('s3').Bucket(bucket).Object(f'{prefix}/test/test.csv').upload_file('test.csv')\ntrain_input = S3Input(s3_data=f's3://{bucket}/{prefix}/train', content_type='text/csv')\ntest_input = S3Input(s3_data=f's3://{bucket}/{prefix}/test', content_type='text/csv')",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "train_input",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "train_input = S3Input(s3_data=f's3://{bucket}/{prefix}/train', content_type='text/csv')\ntest_input = S3Input(s3_data=f's3://{bucket}/{prefix}/test', content_type='text/csv')",
+        "detail": "hello",
+        "documentation": {}
+    },
+    {
+        "label": "test_input",
+        "kind": 5,
+        "importPath": "hello",
+        "description": "hello",
+        "peekOfCode": "test_input = S3Input(s3_data=f's3://{bucket}/{prefix}/test', content_type='text/csv')",
+        "detail": "hello",
         "documentation": {}
     },
     {
