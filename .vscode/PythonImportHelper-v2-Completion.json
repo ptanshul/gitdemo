@@ -1,0 +1,46 @@
+[
+    {
+        "label": "load_boston",
+        "importPath": "sklearn.datasets",
+        "description": "sklearn.datasets",
+        "isExtraImport": true,
+        "detail": "sklearn.datasets",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "boston",
+        "kind": 5,
+        "importPath": "sage",
+        "description": "sage",
+        "peekOfCode": "boston = load_boston()\ndata = pd.DataFrame(boston.data, columns=boston.feature_names)\ndata['PRICE'] = boston.target\ndata.to_csv('boston_housing.csv', index=False)",
+        "detail": "sage",
+        "documentation": {}
+    },
+    {
+        "label": "data",
+        "kind": 5,
+        "importPath": "sage",
+        "description": "sage",
+        "peekOfCode": "data = pd.DataFrame(boston.data, columns=boston.feature_names)\ndata['PRICE'] = boston.target\ndata.to_csv('boston_housing.csv', index=False)",
+        "detail": "sage",
+        "documentation": {}
+    },
+    {
+        "label": "data['PRICE']",
+        "kind": 5,
+        "importPath": "sage",
+        "description": "sage",
+        "peekOfCode": "data['PRICE'] = boston.target\ndata.to_csv('boston_housing.csv', index=False)",
+        "detail": "sage",
+        "documentation": {}
+    }
+]
